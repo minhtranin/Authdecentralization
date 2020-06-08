@@ -1,0 +1,26 @@
+{
+    "development": {
+      "username": "postgres",
+      "password": "postgres",
+      "database": "permission",
+      "host": "localhost",
+      "dialect": "postgres",
+      "port":"5432"
+    },
+    "test": {
+      "username": "tcem",
+      "password": "tcem123",
+      "database": "authservice",
+      "host": "172.27.0.2",
+      "dialect": "postgres",
+      "port":"5432"
+    },
+    "production": {
+        "username": "tcem",
+        "password": "tcem123",
+        "database": "authservice",
+        "host": "172.27.0.2",
+        "dialect": "postgres",
+        "port":"5432"
+    }
+}

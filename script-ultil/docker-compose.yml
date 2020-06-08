@@ -1,0 +1,46 @@
+version: '3.0'
+services:
+  db:
+    image: postgres
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_DB: authservice
+      POSTGRES_USER: "tcem"
+      POSTGRES_PASSWORD: "tcem123"
+    ports:
+      - 5432:5432
+  user-services:
+    build: ../tcem-auth-services
+    container_name: user-services
+    volumes:
+      - ../tcem-auth-services:/tcem-auth-services:cached
+    working_dir: /tcem-auth-services/
+    restart: always
+    ports:
+      - 9000:9000
+    links:
+      - db
+    depends_on:
+      - db
+    command:
+      - npm
+      - start
+  nginx:
+    image: nginx:alpine
+    container_name: nginx_container
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "8018:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    links:
+      - user-services
+    depends_on:
+      - user-services
+    command:
+      - nginx
+      - '-g'
+      - daemon off;
